@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_favorites"
+        android:enabled="true"
+        android:icon="@drawable/outline_cake_black_24dp"
+        android:title="First"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_schedules"
+        android:enabled="true"
+        android:icon="@drawable/outline_fastfood_black_24dp"
+        android:title="Second"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_sm"
+        android:enabled="true"
+        android:icon="@drawable/outline_cake_black_24dp"
+        android:title="Third"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_mm"
+        android:enabled="true"
+        android:icon="@drawable/outline_fastfood_black_24dp"
+        android:title="Third"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_music"
+        android:enabled="true"
+        android:icon="@drawable/outline_cake_black_24dp"
+        android:title="Third"
+        app:showAsAction="ifRoom" />
+</menu>
