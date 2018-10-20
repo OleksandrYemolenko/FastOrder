@@ -16,6 +16,13 @@ public class Handler {
 
     private String result = "error";
 
+    public static String createLink(String request, String... parms) {
+        String ss = link + "/api/" + request + "?token=" + token + "&format=" + format;
+        for(String p : parms) ss += "&" + p;
+
+        return ss;
+    }
+
     public String sendRequest(String request, String requestType, String... parms) {
         String ss = link + "/api/" + request + "?token=" + token + "&format=" + format;
         for(String p : parms) ss += "&" + p;
@@ -61,9 +68,9 @@ public class Handler {
 
                 return content;
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                System.out.println(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e);
             }
 
             return "error";
@@ -71,6 +78,7 @@ public class Handler {
 
         @Override
         protected void onPostExecute(String s) {
+            //System.out.println("ASYNC   ==== " + s);
             result = s;
         }
     }

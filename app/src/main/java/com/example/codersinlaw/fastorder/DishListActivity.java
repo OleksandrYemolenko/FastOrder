@@ -3,6 +3,7 @@ package com.example.codersinlaw.fastorder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,6 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,25 +54,13 @@ public class DishListActivity extends AppCompatActivity {
           getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                   WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dish);
        /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbara);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); */
 
         title = "Dishes";
-
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.action_favorites:
-                        Toast.makeText(DishListActivity.this, "action_favorites", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-        });
 
         setTitle(title);
 
@@ -88,13 +83,17 @@ public class DishListActivity extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         }); */
-
-        manager = new LinearLayoutManager(this);
+        context = this;
+        manager = new LinearLayoutManager(context);
+        System.out.println("MANAGER = " + manager);
+        System.out.println("RECVIEW = " + recView);
 
         recView.setLayoutManager(manager);
         adapter = new RecyclerAdapter();
         recView.setAdapter(adapter);
-        adapter.addAll(getItems());
+        //adapter.addAll(getItems());
+        intent = this.getIntent();
+        new AsyncReuest().execute();
     }
 
     public List<DishItem> getItems() {
@@ -102,12 +101,12 @@ public class DishListActivity extends AppCompatActivity {
 
         category = intent.getIntExtra("category", 0);
         try {
-            JSONObject obj = new JSONObject(Handler.sendRequest("menu.getCategories", "GET"));
+            JSONObject obj = new JSONObject(new Handler().sendRequest("menu.getCategories", "GET"));
             JSONArray arr = obj.getJSONArray("response");
             for(int i = 0; i < arr.length(); ++i) {
                 String name = (String)arr.getJSONObject(i).get("product_name");
                 String photo = (String)arr.getJSONObject(i).get("photo_origin");
-                String price = (String)arr.getJSONObject(i).get("price");
+                String price = (String)arr.getJSONObject(i).getJSONArray("price").get(0);
                 int id = Integer.parseInt((String)arr.getJSONObject(i).get("product_id"));
 
                 items.add(new DishItem(name, photo, id, price, ""));
@@ -143,7 +142,6 @@ public class DishListActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            context = parent.getContext();
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dishitem, parent, false);
             return new RecyclerViewHolder(view);
         }
@@ -204,6 +202,56 @@ public class DishListActivity extends AppCompatActivity {
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    class AsyncReuest extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                category = intent.getIntExtra("category", 0);
+                URL url = new URL(Handler.createLink("menu.getProducts", "category_id=" + category));
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                String content = "", line = "";
+                while((line = bf.readLine()) != null) {
+                    content += line;
+                }
+
+                return content;
+            } catch (MalformedURLException e) {
+                System.out.println(e);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+
+            return "error";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            ArrayList<DishItem> items = new ArrayList<>();
+            try {
+                //System.out.println("REQUEST   ==== " + s);
+                JSONObject obj = new JSONObject(s);
+                JSONArray arr = obj.getJSONArray("response");
+
+                for(int i = 0; i < arr.length(); ++i) {
+                    String name = (String)arr.getJSONObject(i).get("product_name");
+                    String photo = (String)arr.getJSONObject(i).get("photo_origin");
+                    String price = (String)arr.getJSONObject(i).get("price");
+                    int id = Integer.parseInt((String)arr.getJSONObject(i).get("product_id"));
+
+                    items.add(new DishItem(name, photo, id, price, ""));
+                }
+            } catch (JSONException e) {
+                System.out.println(e);
+            }
+
+            adapter.addAll(items);
         }
     }
 }

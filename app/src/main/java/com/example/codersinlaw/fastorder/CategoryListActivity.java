@@ -3,6 +3,7 @@ package com.example.codersinlaw.fastorder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,6 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +52,7 @@ public class CategoryListActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_dish);
+        setContentView(R.layout.activity_category);
        /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbara);
         setSupportActionBar(toolbar);
@@ -53,21 +60,9 @@ public class CategoryListActivity extends AppCompatActivity {
 
         title = "Dishes";
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.action_favorites:
-                        Toast.makeText(CategoryListActivity.this, "action_favorites", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-        });
-
         setTitle(title);
 
-        recView = findViewById(R.id.dishRecView);
+        recView = findViewById(R.id.categoryRecView);
 
         /*recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -87,19 +82,24 @@ public class CategoryListActivity extends AppCompatActivity {
             }
         }); */
 
-        manager = new LinearLayoutManager(this);
+        context = this;
+
+        manager = new LinearLayoutManager(context);
 
         recView.setLayoutManager(manager);
         adapter = new RecyclerAdapter();
         recView.setAdapter(adapter);
-        adapter.addAll(getItems());
+        //adapter.addAll(getItems());
+        new AsyncReuest().execute();
     }
 
     public List<CategoryItem> getItems() {
         ArrayList<CategoryItem> items = new ArrayList<>();
 
         try {
-            JSONObject obj = new JSONObject(new Handler().sendRequest("menu.getCategories", "GET"));
+            String s = new Handler().sendRequest("menu.getCategories", "GET");
+            System.out.println("REQUEST   ==== " + s);
+            JSONObject obj = new JSONObject(s);
             JSONArray arr = obj.getJSONArray("response");
             for(int i = 0; i < arr.length(); ++i) {
                 String name = (String)arr.getJSONObject(i).get("category_name");
@@ -140,7 +140,6 @@ public class CategoryListActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            context = parent.getContext();
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dishitem, parent, false);
             return new RecyclerViewHolder(view);
         }
@@ -151,13 +150,14 @@ public class CategoryListActivity extends AppCompatActivity {
 
             holder.bind(item);
 
-            /*holder.itemView.setOnClickListener (new View.OnClickListener() {
+            holder.itemView.setOnClickListener (new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent.putExtra("category", item.getId());
-                    startActivity(new Intent(context, DishListActivity.class));
+                    Intent i = new Intent(context, DishListActivity.class);
+                    i.putExtra("category", Integer.toString(item.getId()));
+                    startActivity(i);
                 }
-            });*/
+            });
         }
 
         @Override
@@ -192,6 +192,52 @@ public class CategoryListActivity extends AppCompatActivity {
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    class AsyncReuest extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(Handler.createLink("menu.getCategories"));
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                String content = "", line = "";
+                while((line = bf.readLine()) != null) {
+                    content += line;
+                }
+
+                return content;
+            } catch (MalformedURLException e) {
+                System.out.println(e);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+
+            return "error";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            ArrayList<CategoryItem> items = new ArrayList<>();
+            try {
+                //System.out.println("REQUEST   ==== " + s);
+                JSONObject obj = new JSONObject(s);
+                JSONArray arr = obj.getJSONArray("response");
+                for(int i = 0; i < arr.length(); ++i) {
+                    String name = (String)arr.getJSONObject(i).get("category_name");
+                    String photo = (String)arr.getJSONObject(i).get("category_photo");
+                    int id = Integer.parseInt((String)arr.getJSONObject(i).get("category_id"));
+                    items.add(new CategoryItem(name, photo, id));
+                }
+            } catch (JSONException e) {
+                System.out.println(e);
+            }
+
+            adapter.addAll(items);
         }
     }
 }

@@ -20,7 +20,7 @@ public class Item {
         return title;
     }
     public String getURL() {
-        return imgURL;
+        return Handler.link + imgURL;
     }
 
     public void setExpanded(boolean expanded) {

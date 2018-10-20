@@ -19,12 +19,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".CategoryListActivity"
             android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CATEGORYLIST" />
 
                 <category android:name="android.intent.category.CATEGORYLIST" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".DishListActivity"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.DISHLIST" />
+
+                <category android:name="android.intent.category.DISHLIST" />
             </intent-filter>
         </activity>
     </application>
