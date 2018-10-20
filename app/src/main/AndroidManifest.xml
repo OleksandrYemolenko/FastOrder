@@ -30,6 +30,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".CartListActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.Design.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.CARTLIST" />
+
+                <category android:name="android.intent.category.CARTLIST" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".DishListActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/CustomActivityThemeTwo">
