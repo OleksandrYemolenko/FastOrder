@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.r0adkll.slidr.Slidr;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -94,6 +95,8 @@ public class DishListActivity extends AppCompatActivity {
         //adapter.addAll(getItems());
         intent = this.getIntent();
         new AsyncReuest().execute();
+
+        Slidr.attach(this);
     }
 
 
