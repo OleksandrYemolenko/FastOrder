@@ -21,7 +21,7 @@ public class MainActivity extends TabActivity {
     private String title;
     private BottomNavigationView bottomNavigationView;
     public static ArrayList<CartItem> cartItems = new ArrayList<>();
-
+    public static ArrayList<CartItem> placeList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,4 +61,6 @@ public class MainActivity extends TabActivity {
         tabSpec.setContent(new Intent(this, CategoryListActivity.class));
         tabHost.addTab(tabSpec);
     }
+
+
 }

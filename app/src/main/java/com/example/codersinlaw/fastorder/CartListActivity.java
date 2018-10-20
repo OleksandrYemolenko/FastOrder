@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -67,7 +68,7 @@ public class CartListActivity extends AppCompatActivity {
         recView.setLayoutManager(manager);
         adapter = new CartListActivity.RecyclerAdapter();
         recView.setAdapter(adapter);
-        adapter.addAll(getItems());
+        adapter.addAll(MainActivity.cartItems);
 
         simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
@@ -77,27 +78,11 @@ public class CartListActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition(); //get position which is swipe
-
                 if (direction == ItemTouchHelper.LEFT) {    //if swipe left
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CartListActivity.this); //alert for confirm to delete
-                    builder.setMessage("Are you sure to delete?");    //set message
-
-                    builder.setPositiveButton("REMOVE", new DialogInterface.OnClickListener() { //when click on DELETE
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            adapter.notifyItemRemoved(position);    //TODO удалить item
-                            return;
-                        }
-                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {  //not removing items if cancel is done
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            adapter.notifyItemRemoved(position + 1);    //notifies the RecyclerView Adapter that data in adapter has been removed at a particular position.
-                            adapter.notifyItemRangeChanged(position, adapter.getItemCount());   //notifies the RecyclerView Adapter that positions of element in adapter has been changed from position(removed element index to end of list), please update it.
-                            return;
-                        }
-                    }).show();  //show alert dialog
+                    final int position = viewHolder.getAdapterPosition(); //get position which is swipe
+                    adapter.notifyItemRemoved(position);
+                    MainActivity.cartItems.remove(position);
+                    Toast.makeText(context, "Removed from cart", Toast.LENGTH_SHORT).show();
                 }
             }
         };
