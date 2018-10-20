@@ -60,6 +60,7 @@ public class DishListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); */
 
+
         title = "Dishes";
 
         setTitle(title);
