@@ -127,7 +127,7 @@ public class DishListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, final int position) {
             final DishItem dishItem = items.get(position);
 
             holder.bind(dishItem);
@@ -138,6 +138,7 @@ public class DishListActivity extends AppCompatActivity {
                     boolean expanded = dishItem.isExpanded();
                     dishItem.setExpanded(!expanded);
                     notifyItemChanged(position);
+                    dishItem.setFullName(!expanded);
                 }
             });
         }
@@ -181,6 +182,7 @@ public class DishListActivity extends AppCompatActivity {
             price.setVisibility(View.INVISIBLE);
             description.setText(recyclerItem.getDescription());
             button.setText("Add to cart");
+            button.setVisibility(recyclerItem.getVis() ? View.INVISIBLE : View.VISIBLE);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
