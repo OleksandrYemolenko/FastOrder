@@ -1,15 +1,18 @@
 package com.example.codersinlaw.fastorder;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +50,7 @@ public class DishListActivity extends AppCompatActivity {
     private String title;
     private Context context;
     private BottomNavigationView bottomNavigationView;
+    private ItemTouchHelper.SimpleCallback simpleCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,27 @@ public class DishListActivity extends AppCompatActivity {
         recView.setAdapter(adapter);
         //adapter.addAll(getItems());
         new AsyncRequest().execute();
+
+        simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition(); //get position which is swipe
+
+                if (direction == ItemTouchHelper.LEFT) {    //if swipe left
+                    adapter.notifyItemChanged(position, null);
+                    MainActivity.cartItems.add(new CartItem(adapter.items.get(position)));
+                    Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recView); //set swipe to recylcerview
 
         Slidr.attach(this, getResources().getColor(R.color.primaryDark), getResources().getColor(R.color.secondaryDark));
     }
