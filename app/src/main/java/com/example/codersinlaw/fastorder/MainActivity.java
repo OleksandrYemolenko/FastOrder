@@ -13,14 +13,16 @@ import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends TabActivity {
 
     private String title;
-    private BottomNavigationView bottomNavigationView;
-    public static List<CartItem> list;
-
+    public static ArrayList<CartItem> cartItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +33,8 @@ public class MainActivity extends TabActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-        title = "Dishes";
-        setTitle(title);
+        //title = "Menu";
+        //setTitle(title);
 
         TabHost tabHost = getTabHost();
 

@@ -87,7 +87,7 @@ public class CategoryListActivity extends AppCompatActivity {
         adapter = new RecyclerAdapter();
         recView.setAdapter(adapter);
         //adapter.addAll(getItems());
-        new AsyncReuest().execute();
+        new AsyncRequest().execute();
     }
 
   /*  public void ChangeActivity(int pos, String title) {
@@ -129,6 +129,7 @@ public class CategoryListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent i = new Intent(context, DishListActivity.class);
                     i.putExtra("category", Integer.toString(item.getId()));
+                    i.putExtra("category_name", item.getName());
                     startActivity(i);
                 }
             });
@@ -169,7 +170,7 @@ public class CategoryListActivity extends AppCompatActivity {
         }
     }
 
-    class AsyncReuest extends AsyncTask<Void, Void, String> {
+    class AsyncRequest extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {

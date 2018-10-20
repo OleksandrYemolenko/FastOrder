@@ -60,10 +60,8 @@ public class DishListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbara);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); */
-
-        title = "Dishes";
-
-        setTitle(title);
+        intent = this.getIntent();
+        setTitle(intent.getStringExtra("category_name"));
 
         recView = findViewById(R.id.dishRecView);
 
@@ -93,8 +91,7 @@ public class DishListActivity extends AppCompatActivity {
         adapter = new RecyclerAdapter();
         recView.setAdapter(adapter);
         //adapter.addAll(getItems());
-        intent = this.getIntent();
-        new AsyncReuest().execute();
+        new AsyncRequest().execute();
 
         Slidr.attach(this, getResources().getColor(R.color.primaryDark), getResources().getColor(R.color.secondaryDark));
     }
@@ -187,7 +184,7 @@ public class DishListActivity extends AppCompatActivity {
         }
     }
 
-    class AsyncReuest extends AsyncTask<Void, Void, String> {
+    class AsyncRequest extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
