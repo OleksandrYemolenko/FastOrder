@@ -174,7 +174,7 @@ public class DishListActivity extends AppCompatActivity {
             //image.setImageResource(R.drawable.no_img); //
         }
 
-        public void bind(DishItem recyclerItem) {
+        public void bind(final DishItem recyclerItem) {
             boolean expanded = recyclerItem.isExpanded();
 
             title.setText(recyclerItem.getName());
@@ -184,7 +184,7 @@ public class DishListActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO Передавать объекты
+                    MainActivity.cartItems.add(new CartItem(recyclerItem.getName(), recyclerItem.getURL(), recyclerItem.getId()));
                 }
             });
             // TODO добавить текст button.setText();
@@ -237,7 +237,7 @@ public class DishListActivity extends AppCompatActivity {
                     //System.out.println(price);
                     int id = Integer.parseInt((String)arr.getJSONObject(i).get("product_id"));
 
-                    items.add(new DishItem(name, photo, id, priceStr, "Описание товара из чего состоит хз будет ли в релизе лалалала саша пидор"));
+                    items.add(new DishItem(name, Handler.link + photo, id, priceStr, "Описание товара из чего состоит хз будет ли в релизе лалалала саша пидор"));
                 }
             } catch (JSONException e) {
                 System.out.println(e);

@@ -214,7 +214,7 @@ public class CategoryListActivity extends AppCompatActivity {
                     String name = (String)arr.getJSONObject(i).get("category_name");
                     String photo = (String)arr.getJSONObject(i).get("category_photo");
                     int id = Integer.parseInt((String)arr.getJSONObject(i).get("category_id"));
-                    items.add(new CategoryItem(name, photo, id));
+                    items.add(new CategoryItem(name, Handler.link + photo, id));
                 }
             } catch (JSONException e) {
                 System.out.println(e);

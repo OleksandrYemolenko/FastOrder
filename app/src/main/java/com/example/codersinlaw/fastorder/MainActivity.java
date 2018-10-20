@@ -13,13 +13,14 @@ import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends TabActivity {
 
     private String title;
     private BottomNavigationView bottomNavigationView;
-    public static List<CartItem> list;
+    public static ArrayList<CartItem> cartItems = new ArrayList<>();
 
 
     @Override

@@ -146,12 +146,12 @@ public class CartListActivity extends AppCompatActivity {
             //image.setImageResource(R.drawable.no_img); //
         }
 
-        public void bind(CartItem recyclerItem) {
+        public void bind(final CartItem recyclerItem) {
             boolean expanded = recyclerItem.isExpanded();
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO Передавать объекты
+                    
                 }
             });
             title.setText(recyclerItem.getName());
