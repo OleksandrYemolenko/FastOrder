@@ -44,5 +44,15 @@ public class MainActivity extends TabActivity {
         tabSpec.setIndicator("Корзина");
         tabSpec.setContent(new Intent(this, CategoryListActivity.class));
         tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("tag3");
+        tabSpec.setIndicator("Заказы");
+        tabSpec.setContent(new Intent(this, CategoryListActivity.class));
+        tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("tag4");
+        tabSpec.setIndicator("Настройки");
+        tabSpec.setContent(new Intent(this, CategoryListActivity.class));
+        tabHost.addTab(tabSpec);
     }
 }
