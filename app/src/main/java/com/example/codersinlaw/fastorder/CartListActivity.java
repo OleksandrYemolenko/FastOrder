@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -68,7 +69,7 @@ public class CartListActivity extends AppCompatActivity {
         adapter.addAll(getItems());
     }
 
-    private List<CartItem> getItems() {
+    private ArrayList<CartItem> getItems() {
         /*ArrayList<CartItem> items = new ArrayList<>();
 
         try {
@@ -89,10 +90,10 @@ public class CartListActivity extends AppCompatActivity {
     public class RecyclerAdapter extends RecyclerView.Adapter<CartListActivity.RecyclerViewHolder> {
         ArrayList<CartItem> items = new ArrayList<>();
 
-        public void addAll(List<CartItem> items) {
+        public void addAll(ArrayList<CartItem> items) {
             int pos = getItemCount();
-            this.items.addAll(items);
-            notifyItemRangeInserted(pos, this.items.size());
+            this.items = items;
+            notifyItemRangeInserted(0, this.items.size());
         }
 
         @NonNull
@@ -151,7 +152,8 @@ public class CartListActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    
+                    //cartItems.remove(recyclerItem);
+                    adapter.addAll(getItems());
                 }
             });
             title.setText(recyclerItem.getName());

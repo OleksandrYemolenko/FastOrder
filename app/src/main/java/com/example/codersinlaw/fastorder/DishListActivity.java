@@ -184,7 +184,7 @@ public class DishListActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MainActivity.cartItems.add(new CartItem(recyclerItem.getName(), recyclerItem.getURL(), recyclerItem.getId()));
+                    MainActivity.cartItems.add(new CartItem(recyclerItem));
                 }
             });
             // TODO добавить текст button.setText();
