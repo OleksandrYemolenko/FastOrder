@@ -1,5 +1,6 @@
 package com.example.codersinlaw.fastorder;
 
+import android.app.TabActivity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,9 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TabHost;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends TabActivity {
 
     private String title;
     private BottomNavigationView bottomNavigationView;
@@ -27,30 +29,20 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         title = "Dishes";
-
-        /*bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.action_favorites:
-                        Toast.makeText(MainActivity.this, "action_favorites", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-        }); */
-
         setTitle(title);
-    }
 
-    public void ChangeActivity(View view) {
-        try {
-            Intent intent = new Intent(this, CategoryListActivity.class);
-            startActivity(intent);
-        } catch(Exception e) {
-            //Toast.makeText(getApplicationContext(), "Exception" + e, Toast.LENGTH_LONG).show();
-            System.out.println(e);
-        }
-        // return;
+        TabHost tabHost = getTabHost();
+
+        TabHost.TabSpec tabSpec;
+
+        tabSpec = tabHost.newTabSpec("tag1");
+        tabSpec.setIndicator("Категории");
+        tabSpec.setContent(new Intent(this, CategoryListActivity.class));
+        tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("tag2");
+        tabSpec.setIndicator("Корзина");
+        tabSpec.setContent(new Intent(this, CategoryListActivity.class));
+        tabHost.addTab(tabSpec);
     }
 }
