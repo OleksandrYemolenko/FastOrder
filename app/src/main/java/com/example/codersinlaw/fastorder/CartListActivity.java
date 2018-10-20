@@ -39,12 +39,15 @@ public class CartListActivity extends AppCompatActivity {
     private LinearLayoutManager manager;
     private CartListActivity.RecyclerAdapter adapter;
     private Intent intent;
-    private String title;
     private Context context;
+
+    private ArrayList<CartItem> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.cartItems = MainActivity.cartItems;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -55,14 +58,32 @@ public class CartListActivity extends AppCompatActivity {
         recView = findViewById(R.id.cartRecView);
 
         context = this;
+        intent = this.getIntent();
 
         manager = new LinearLayoutManager(context);
 
         recView.setLayoutManager(manager);
         adapter = new CartListActivity.RecyclerAdapter();
         recView.setAdapter(adapter);
-        //adapter.addAll(getItems());
-        new CartListActivity.AsyncReuest().execute();
+        adapter.addAll(getItems());
+    }
+
+    private List<CartItem> getItems() {
+        /*ArrayList<CartItem> items = new ArrayList<>();
+
+        try {
+            JSONArray arr = new JSONArray(intent.getStringExtra("cart"));
+            for(int i = 0; i < arr.length(); ++i) {
+                String name = (String)arr.getJSONObject(i).get("product_name");
+                String photo = (String)arr.getJSONObject(i).get("photo_origin");
+                int id = Integer.parseInt((String)arr.getJSONObject(i).get("product_id"));
+                items.add(new CartItem(name, photo, id));
+            }
+        } catch (JSONException e) {
+            System.out.println(e);
+        }*/
+
+        return cartItems;
     }
 
     public class RecyclerAdapter extends RecyclerView.Adapter<CartListActivity.RecyclerViewHolder> {
@@ -138,54 +159,6 @@ public class CartListActivity extends AppCompatActivity {
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
-        }
-    }
-
-
-    class AsyncReuest extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                URL url = new URL(Handler.createLink("menu.getCategories"));
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                String content = "", line = "";
-                while((line = bf.readLine()) != null) {
-                    content += line;
-                }
-
-                con.disconnect();
-                return content;
-            } catch (MalformedURLException e) {
-                System.out.println(e);
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-
-            return "error";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            ArrayList<CartItem> items = new ArrayList<>();
-            try {
-                //System.out.println("REQUEST   ==== " + s);
-                JSONObject obj = new JSONObject(s);
-                JSONArray arr = obj.getJSONArray("response");
-                for(int i = 0; i < arr.length(); ++i) {
-                    String name = (String)arr.getJSONObject(i).get("category_name");
-                    String photo = (String)arr.getJSONObject(i).get("category_photo");
-                    int id = Integer.parseInt((String)arr.getJSONObject(i).get("category_id"));
-                    items.add(new CartItem(name, photo, id));
-                }
-            } catch (JSONException e) {
-                System.out.println(e);
-            }
-
-            adapter.addAll(items);
         }
     }
 }

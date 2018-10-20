@@ -19,6 +19,8 @@ public class MainActivity extends TabActivity {
 
     private String title;
     private BottomNavigationView bottomNavigationView;
+    public static List<CartItem> list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
