@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -155,6 +156,7 @@ public class DishListActivity extends AppCompatActivity {
         private TextView title, price, description;
         private ImageView image;
         private View subItem;
+        private Button button;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -163,8 +165,9 @@ public class DishListActivity extends AppCompatActivity {
 
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
+            button = (Button) itemView.findViewById(R.id.seeAll);
             description = (TextView) itemView.findViewById(R.id.description);
-
+            button.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             title.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             price.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             description.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
@@ -178,9 +181,16 @@ public class DishListActivity extends AppCompatActivity {
             boolean expanded = recyclerItem.isExpanded();
 
             title.setText(recyclerItem.getName());
-            price.setText(recyclerItem.getPrice());
+            price.setVisibility(View.INVISIBLE);
             description.setText(recyclerItem.getDescription());
-
+            button.setText("Add to cart");
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO Передавать объекты
+                }
+            });
+            // TODO добавить текст button.setText();
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);

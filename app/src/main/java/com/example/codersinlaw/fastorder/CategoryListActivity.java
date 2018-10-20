@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -145,11 +147,15 @@ public class CategoryListActivity extends AppCompatActivity {
         private TextView title, price;
         private ImageView image;
         private View subItem;
+        private Button button;
+        private ImageButton imageButton;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             subItem = itemView.findViewById(R.id.sub_item);
+            button = (Button) itemView.findViewById(R.id.seeAll);
+            imageButton = (ImageButton) itemView.findViewById(R.id.categoryExpandBtn);
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
             title.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
@@ -160,9 +166,10 @@ public class CategoryListActivity extends AppCompatActivity {
 
         public void bind(CategoryItem recyclerItem) {
             boolean expanded = recyclerItem.isExpanded();
-
+            button.setVisibility(View.INVISIBLE);
             title.setText(recyclerItem.getName());
-            price.setText("");
+            price.setText("");;
+            imageButton.setVisibility(View.INVISIBLE);
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);

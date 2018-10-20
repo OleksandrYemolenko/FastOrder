@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -107,6 +108,7 @@ public class CartListActivity extends AppCompatActivity {
         private TextView title, price;
         private ImageView image;
         private View subItem;
+        private Button button;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -114,6 +116,9 @@ public class CartListActivity extends AppCompatActivity {
             subItem = itemView.findViewById(R.id.sub_item);
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
+            button = (Button) itemView.findViewById(R.id.seeAll);
+            button.setText("Delete");
+            button.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             title.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             price.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             image = (ImageView) itemView.findViewById(R.id.imgD);
@@ -122,9 +127,14 @@ public class CartListActivity extends AppCompatActivity {
 
         public void bind(CartItem recyclerItem) {
             boolean expanded = recyclerItem.isExpanded();
-
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO Передавать объекты
+                }
+            });
             title.setText(recyclerItem.getName());
-            price.setText("");
+            price.setVisibility(View.INVISIBLE);
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
