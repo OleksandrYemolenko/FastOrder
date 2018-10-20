@@ -99,7 +99,7 @@ public class CategoryListActivity extends AppCompatActivity {
         ArrayList<CategoryItem> items = new ArrayList<>();
 
         try {
-            JSONObject obj = new JSONObject(Handler.sendRequest("menu.getCategories", "GET"));
+            JSONObject obj = new JSONObject(new Handler().sendRequest("menu.getCategories", "GET"));
             JSONArray arr = obj.getJSONArray("response");
             for(int i = 0; i < arr.length(); ++i) {
                 String name = (String)arr.getJSONObject(i).get("category_name");
