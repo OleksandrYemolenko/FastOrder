@@ -48,8 +48,6 @@ public class CartListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.cartItems = MainActivity.cartItems;
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -84,7 +82,7 @@ public class CartListActivity extends AppCompatActivity {
             System.out.println(e);
         }*/
 
-        return cartItems;
+        return new ArrayList<>(MainActivity.cartItems);
     }
 
     public class RecyclerAdapter extends RecyclerView.Adapter<CartListActivity.RecyclerViewHolder> {
@@ -153,6 +151,10 @@ public class CartListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //cartItems.remove(recyclerItem);
+                    adapter = new RecyclerAdapter();
+                    recView.setAdapter(adapter);
+                    int index = MainActivity.cartItems.indexOf(recyclerItem);
+                    if(index != -1) MainActivity.cartItems.remove(index);
                     adapter.addAll(getItems());
                 }
             });
