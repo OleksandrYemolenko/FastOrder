@@ -96,27 +96,6 @@ public class DishListActivity extends AppCompatActivity {
         new AsyncReuest().execute();
     }
 
-    public List<DishItem> getItems() {
-        ArrayList<DishItem> items = new ArrayList<>();
-
-        category = intent.getIntExtra("category", 0);
-        try {
-            JSONObject obj = new JSONObject(new Handler().sendRequest("menu.getCategories", "GET"));
-            JSONArray arr = obj.getJSONArray("response");
-            for(int i = 0; i < arr.length(); ++i) {
-                String name = (String)arr.getJSONObject(i).get("product_name");
-                String photo = (String)arr.getJSONObject(i).get("photo_origin");
-                String price = (String)arr.getJSONObject(i).getJSONArray("price").get(0);
-                int id = Integer.parseInt((String)arr.getJSONObject(i).get("product_id"));
-
-                items.add(new DishItem(name, photo, id, price, ""));
-            }
-        } catch (JSONException e) {
-            System.out.println(e);
-        }
-
-        return items;
-    }
 
   /*  public void ChangeActivity(int pos, String title) {
         try {
@@ -210,7 +189,7 @@ public class DishListActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                category = intent.getIntExtra("category", 0);
+                category = Integer.parseInt(intent.getStringExtra("category"));
                 URL url = new URL(Handler.createLink("menu.getProducts", "category_id=" + category));
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
@@ -221,6 +200,7 @@ public class DishListActivity extends AppCompatActivity {
                     content += line;
                 }
 
+                con.disconnect();
                 return content;
             } catch (MalformedURLException e) {
                 System.out.println(e);
@@ -238,14 +218,16 @@ public class DishListActivity extends AppCompatActivity {
                 //System.out.println("REQUEST   ==== " + s);
                 JSONObject obj = new JSONObject(s);
                 JSONArray arr = obj.getJSONArray("response");
-
+                //System.out.println(arr);
                 for(int i = 0; i < arr.length(); ++i) {
                     String name = (String)arr.getJSONObject(i).get("product_name");
                     String photo = (String)arr.getJSONObject(i).get("photo_origin");
-                    String price = (String)arr.getJSONObject(i).get("price");
+                    int price = Integer.parseInt((String)arr.getJSONObject(i).getJSONObject("price").get("1"));
+                    String priceStr = Double.toString(price / 100.0) + "₴";
+                    //System.out.println(price);
                     int id = Integer.parseInt((String)arr.getJSONObject(i).get("product_id"));
 
-                    items.add(new DishItem(name, photo, id, price, ""));
+                    items.add(new DishItem(name, photo, id, priceStr, "Описание товара из чего состоит хз будет ли в релизе лалалала саша пидор"));
                 }
             } catch (JSONException e) {
                 System.out.println(e);

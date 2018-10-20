@@ -93,29 +93,6 @@ public class CategoryListActivity extends AppCompatActivity {
         new AsyncReuest().execute();
     }
 
-    public List<CategoryItem> getItems() {
-        ArrayList<CategoryItem> items = new ArrayList<>();
-
-        try {
-            String s = new Handler().sendRequest("menu.getCategories", "GET");
-            System.out.println("REQUEST   ==== " + s);
-            JSONObject obj = new JSONObject(s);
-            JSONArray arr = obj.getJSONArray("response");
-            for(int i = 0; i < arr.length(); ++i) {
-                String name = (String)arr.getJSONObject(i).get("category_name");
-                String photo = (String)arr.getJSONObject(i).get("category_photo");
-                int id = Integer.parseInt((String)arr.getJSONObject(i).get("category_id"));
-                items.add(new CategoryItem(name, photo, id));
-            }
-        } catch (JSONException e) {
-            System.out.println(e);
-        }
-
-        //items.add(new CategoryItem("Pri", "", 0));
-
-        return items;
-    }
-
   /*  public void ChangeActivity(int pos, String title) {
         try {
             intent = new Intent(this, AlgoContentPageActivity.class);
@@ -210,6 +187,7 @@ public class CategoryListActivity extends AppCompatActivity {
                     content += line;
                 }
 
+                con.disconnect();
                 return content;
             } catch (MalformedURLException e) {
                 System.out.println(e);
