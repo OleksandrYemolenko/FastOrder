@@ -149,14 +149,12 @@ public class CategoryListActivity extends AppCompatActivity {
         private ImageView image;
         private View subItem;
         private Button button;
-        private ImageButton imageButton;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             subItem = itemView.findViewById(R.id.sub_item);
             button = (Button) itemView.findViewById(R.id.seeAll);
-            imageButton = (ImageButton) itemView.findViewById(R.id.categoryExpandBtn);
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
             title.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
@@ -170,7 +168,6 @@ public class CategoryListActivity extends AppCompatActivity {
             button.setVisibility(View.INVISIBLE);
             title.setText(recyclerItem.getName());
             price.setText("");;
-            imageButton.setVisibility(View.INVISIBLE);
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);

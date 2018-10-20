@@ -10,6 +10,11 @@ public class DishItem extends Item {
         this.description = description;
     }
 
+    @Override
+    public String getName() {
+        return super.getName().substring(0, Math.min(9, super.getName().length()));
+    }
+
     public String getPrice() {
         return price;
     }
