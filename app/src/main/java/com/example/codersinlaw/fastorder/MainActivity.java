@@ -13,10 +13,13 @@ import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class MainActivity extends TabActivity {
 
     private String title;
     private BottomNavigationView bottomNavigationView;
+    public static List<CartItem> list;
 
 
     @Override
@@ -43,8 +46,9 @@ public class MainActivity extends TabActivity {
 
         tabSpec = tabHost.newTabSpec("tag2");
         tabSpec.setIndicator("Корзина");
-        tabSpec.setContent(new Intent(this, CategoryListActivity.class));
+        tabSpec.setContent(new Intent(this, CartListActivity.class));
         tabHost.addTab(tabSpec);
+
 
         tabSpec = tabHost.newTabSpec("tag3");
         tabSpec.setIndicator("Заказы");
