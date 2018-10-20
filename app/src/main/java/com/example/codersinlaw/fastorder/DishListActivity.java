@@ -96,7 +96,7 @@ public class DishListActivity extends AppCompatActivity {
         intent = this.getIntent();
         new AsyncReuest().execute();
 
-        Slidr.attach(this);
+        Slidr.attach(this, getResources().getColor(R.color.primaryDark), getResources().getColor(R.color.secondaryDark));
     }
 
 

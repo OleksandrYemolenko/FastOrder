@@ -16,6 +16,11 @@
         <!-- other activity and action bar styles here -->
     </style>
 
+    <style name="CustomActivityThemeTwo" parent="CustomActivityTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <!-- style for the action bar backgrounds -->
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="android:background">@color/colorPrimary</item>

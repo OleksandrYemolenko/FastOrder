@@ -31,7 +31,8 @@
         </activity>
 
         <activity android:name=".DishListActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/CustomActivityThemeTwo">
             <intent-filter>
                 <action android:name="android.intent.action.DISHLIST" />
 
