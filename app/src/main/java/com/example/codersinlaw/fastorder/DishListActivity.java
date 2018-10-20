@@ -179,7 +179,6 @@ public class DishListActivity extends AppCompatActivity {
         private TextView title, price, description;
         private ImageView image;
         private View subItem;
-        private Button button;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -188,9 +187,7 @@ public class DishListActivity extends AppCompatActivity {
 
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
-            button = (Button) itemView.findViewById(R.id.seeAll);
             description = (TextView) itemView.findViewById(R.id.description);
-            button.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             title.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             price.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             description.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
@@ -206,14 +203,6 @@ public class DishListActivity extends AppCompatActivity {
             title.setText(recyclerItem.getName());
             price.setVisibility(View.INVISIBLE);
             description.setText(recyclerItem.getDescription());
-            button.setText("Add to cart");
-            button.setVisibility(recyclerItem.getVis() ? View.INVISIBLE : View.VISIBLE);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MainActivity.cartItems.add(new CartItem(recyclerItem));
-                }
-            });
             // TODO добавить текст button.setText();
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 

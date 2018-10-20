@@ -154,7 +154,6 @@ public class CartListActivity extends AppCompatActivity {
         private TextView title, price;
         private ImageView image;
         private View subItem;
-        private Button button;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -162,9 +161,6 @@ public class CartListActivity extends AppCompatActivity {
             subItem = itemView.findViewById(R.id.sub_item);
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
-            button = (Button) itemView.findViewById(R.id.seeAll);
-            button.setText("Delete");
-            button.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             title.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             price.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
             image = (ImageView) itemView.findViewById(R.id.imgD);
@@ -173,17 +169,6 @@ public class CartListActivity extends AppCompatActivity {
 
         public void bind(final CartItem recyclerItem) {
             boolean expanded = recyclerItem.isExpanded();
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //cartItems.remove(recyclerItem);
-                    adapter = new RecyclerAdapter();
-                    recView.setAdapter(adapter);
-                    int index = MainActivity.cartItems.indexOf(recyclerItem);
-                    if(index != -1) MainActivity.cartItems.remove(index);
-                    adapter.addAll(getItems());
-                }
-            });
             title.setText(recyclerItem.getName());
             price.setVisibility(View.INVISIBLE);
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
