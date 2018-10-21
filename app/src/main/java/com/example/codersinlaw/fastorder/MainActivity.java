@@ -72,11 +72,6 @@ public class MainActivity extends TabActivity {
         tabSpec.setContent(new Intent(this, OrderPayActivity.class));
         tabHost.addTab(tabSpec);
 
-        tabSpec = tabHost.newTabSpec("tag4");
-        tabSpec.setIndicator("Карта");
-        tabSpec.setContent(new Intent(this, MapsActivity.class));
-        tabHost.addTab(tabSpec);
-
         SharedPreferences sp = this.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("isLogined", false);
