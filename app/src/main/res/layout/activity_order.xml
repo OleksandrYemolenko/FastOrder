@@ -6,57 +6,84 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
+        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/timeO"
-            tools:text="Price"
-            android:text="Price"
-            android:layout_alignParentLeft="true"/>
+            tools:text="Time"
+            android:text="00:00:00"
+            android:layout_alignParentLeft="true"
+            android:textSize="25dp"
+            android:textColor="@color/colorPrimaryDark"/>
         <Button
+            android:layout_margin="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="set time"
+            android:background="@drawable/buttonshape"
             android:id="@+id/timeD"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:textSize="25dp"
+            android:textColor="@color/colorPrimaryDark"/>
     </RelativeLayout>
 
-    <!-- Menu -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinRes"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
                 android:id="@+id/mapB"
                 android:text="map"
-                android:layout_gravity="top"/>
+                android:background="@drawable/buttonshape"
+                android:layout_gravity="top"
+                android:textSize="25dp"
+                android:textColor="@color/colorPrimaryDark"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/addressO"
                 tools:text="Address"
                 android:text="Address"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="bottom"
+                android:textSize="25dp"
+                android:textColor="@color/colorPrimaryDark"/>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/priceO"
             tools:text="Price"
             android:text="300$"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:textSize="40dp"
+            android:textColor="@color/colorPrimaryDark"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinResO"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="25dp"/>
 
     </RelativeLayout>
-
     <!-- GPay -->
 
 </LinearLayout>
