@@ -25,6 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActivityTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.LOGIN" />

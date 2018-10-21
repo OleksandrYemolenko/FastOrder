@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +59,15 @@ public class CartListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_cart);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(CartListActivity.this, OrderPayActivity.class);
+                startActivity(intent);
+            }
+        });
+
         recView = findViewById(R.id.cartRecView);
 
         context = this;
@@ -80,8 +90,8 @@ public class CartListActivity extends AppCompatActivity {
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.LEFT) {    //if swipe left
                     final int position = viewHolder.getAdapterPosition(); //get position which is swipe
-                    adapter.notifyItemRemoved(position);
                     MainActivity.cartItems.remove(position);
+                    adapter.notifyItemRemoved(position);
                     Toast.makeText(context, "Removed from cart", Toast.LENGTH_SHORT).show();
                 }
             }
