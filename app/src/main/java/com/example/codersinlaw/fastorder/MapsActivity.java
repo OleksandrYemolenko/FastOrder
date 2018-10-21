@@ -3,6 +3,8 @@ package com.example.codersinlaw.fastorder;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,7 +32,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -50,56 +58,63 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        new AsyncRequest().execute();
     }
 
-    /*class AsyncRequest extends AsyncTask<Void, Void, String> {
+    class AsyncRequest extends AsyncTask<Void, Void, ArrayList<JSONObject> > {
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected ArrayList<JSONObject> doInBackground(Void... voids) {
+            ArrayList<JSONObject> aj = new ArrayList<>();
             try {
-                URL url = new URL(Handler.createLink("menu.getCategories"));
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String link = Handler.createLink("access.getSpots");
+                String content = Handler.sendRequest(link, "GET");
 
-                String content = "", line = "";
-                while((line = bf.readLine()) != null) {
-                    content += line;
-                }
-
-                con.disconnect();
-                return content;
-            } catch (MalformedURLException e) {
-                System.out.println(e);
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-
-            return "error";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            ArrayList<CategoryItem> items = new ArrayList<>();
-            try {
-                //System.out.println("REQUEST   ==== " + s);
-                JSONObject obj = new JSONObject(s);
+                JSONObject obj = new JSONObject(content);
                 JSONArray arr = obj.getJSONArray("response");
                 for(int i = 0; i < arr.length(); ++i) {
-                    String name = (String)arr.getJSONObject(i).get("category_name");
-                    String photo = (String)arr.getJSONObject(i).get("category_photo");
-                    int id = Integer.parseInt((String)arr.getJSONObject(i).get("category_id"));
-                    items.add(new CategoryItem(name, Handler.link + photo, id));
+                    String id = (String)arr.getJSONObject(i).get("spot_id");
+                    String name = (String)arr.getJSONObject(i).get("spot_name");
+                    String address = (String) arr.getJSONObject(i).get("spot_adress");
+
+                    String helper = address.replace(" ", "+");
+                    link = "https://maps.google.com/maps/api/geocode/json?address="+helper+"&key=AIzaSyDjgfR1P5MpP8BUoFvJcrqTA_1xBJ-TVhE";
+                    JSONArray res = new JSONObject(Handler.sendRequest(link, "GET")).getJSONArray("results");
+                    JSONObject loc = res.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+                    String lng = loc.getString("lng");
+                    String lat = loc.getString("lat");
+
+                    JSONObject o = new JSONObject();
+                    o.put("id", id);
+                    o.put("name", name);
+                    o.put("address", address);
+                    o.put("lng", lng);
+                    o.put("lat", lat);
+                    aj.add(o);
                 }
             } catch (JSONException e) {
                 System.out.println(e);
             }
 
-            adapter.addAll(items);
+            return aj;
         }
-    }*/
+
+        @Override
+        protected void onPostExecute(ArrayList<JSONObject> aj) {
+            for (int i = 0; i < aj.size(); ++i) {
+                try {
+                    JSONObject obj = aj.get(i);
+                    Double lat = Double.parseDouble(obj.get("lat").toString());
+                    Double lng = Double.parseDouble(obj.get("lng").toString());
+                    LatLng sydney = new LatLng(lat, lng);
+                    mMap.addMarker(new MarkerOptions().position(sydney).title(obj.get("name") + " " + obj.get("address")));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+
+                    System.out.println(obj);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

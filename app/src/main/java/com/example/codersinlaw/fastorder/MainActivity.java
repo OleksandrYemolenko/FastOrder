@@ -57,8 +57,8 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabSpec);
 
         tabSpec = tabHost.newTabSpec("tag4");
-        tabSpec.setIndicator("Настройки");
-        tabSpec.setContent(new Intent(this, CategoryListActivity.class));
+        tabSpec.setIndicator("Карта");
+        tabSpec.setContent(new Intent(this, MapsActivity.class));
         tabHost.addTab(tabSpec);
     }
 

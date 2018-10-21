@@ -23,15 +23,9 @@ public class Handler {
         return ss;
     }
 
-    public String sendRequest(String request, String requestType, String... parms) {
-        String ss = link + "/api/" + request + "?token=" + token + "&format=" + format;
-        for(String p : parms) ss += "&" + p;
-
-        new AsyncReuest().execute(ss, requestType);
-        return result;
-
-        /*try {
-            URL url = new URL(ss);
+    public static String sendRequest(String request, String requestType) {
+        try {
+            URL url = new URL(request);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(requestType);
             BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -48,39 +42,7 @@ public class Handler {
             e.printStackTrace();
         }
 
-        return "error";*/
-    }
-
-    class AsyncReuest extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... arg) {
-            try {
-                URL url = new URL(arg[0]);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod(arg[1]);
-                BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                String content = "", line = "";
-                while((line = bf.readLine()) != null) {
-                    content += line;
-                }
-
-                return content;
-            } catch (MalformedURLException e) {
-                System.out.println(e);
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-
-            return "error";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            //System.out.println("ASYNC   ==== " + s);
-            result = s;
-        }
+        return "error";
     }
 }
 
