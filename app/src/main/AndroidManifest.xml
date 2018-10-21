@@ -84,6 +84,16 @@
                 <category android:name="android.intent.category.MAPS" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OrderPayActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.Design.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.ORDERPAY" />
+
+                <category android:name="android.intent.category.ORDERPAY" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

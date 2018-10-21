@@ -53,7 +53,7 @@ public class MainActivity extends TabActivity {
 
         tabSpec = tabHost.newTabSpec("tag3");
         tabSpec.setIndicator("Заказы");
-        tabSpec.setContent(new Intent(this, CategoryListActivity.class));
+        tabSpec.setContent(new Intent(this, OrderPayActivity.class));
         tabHost.addTab(tabSpec);
 
         tabSpec = tabHost.newTabSpec("tag4");
