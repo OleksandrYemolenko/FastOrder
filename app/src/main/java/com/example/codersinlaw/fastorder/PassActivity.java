@@ -69,9 +69,15 @@ public class PassActivity extends AppCompatActivity {
 
         @Override
         protected JSONObject doInBackground(Void... voids) {
-            String content = Handler.sendRequest(Handler.createLink("clients.createClient", "client_name=" + secondname + "_" + secondname, "phone=" + phone), "POST");
+            String content = Handler.sendRequest(Handler.createLink("clients.getGroups"), "GET");
+            System.out.println("CONTENT ====== " + content);
             JSONObject obj = null;
             try {
+                obj = new JSONObject(content);
+                JSONArray arr = obj.getJSONArray("response");
+                obj = arr.getJSONObject(0);
+                System.out.println(obj);
+                content = Handler.sendRequest(Handler.createLink("clients.createClient", "client_name=" + secondname, "phone=" + phone, "client_groups_id_client="+obj.get("client_groups_id"), "client_sex=0"), "post");
                 obj = new JSONObject(content);
             } catch (JSONException e) {
                 System.out.println(e);

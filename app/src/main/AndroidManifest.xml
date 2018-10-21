@@ -112,6 +112,14 @@
                 <category android:name="android.intent.category.ORDERPAY" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".OrderListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ORDERLIST" />
+
+                <category android:name="android.intent.category.ORDERLIST" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

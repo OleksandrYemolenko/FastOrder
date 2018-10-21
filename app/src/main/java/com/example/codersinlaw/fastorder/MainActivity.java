@@ -69,7 +69,7 @@ public class MainActivity extends TabActivity {
 
         tabSpec = tabHost.newTabSpec("tag3");
         tabSpec.setIndicator("Заказы");
-        tabSpec.setContent(new Intent(this, OrderPayActivity.class));
+        tabSpec.setContent(new Intent(this, OrderListActivity.class));
         tabHost.addTab(tabSpec);
 
         SharedPreferences sp = this.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);

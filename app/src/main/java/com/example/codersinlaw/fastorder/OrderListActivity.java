@@ -66,7 +66,7 @@ public class OrderListActivity extends AppCompatActivity {
         recView.setLayoutManager(manager);
         adapter = new OrderListActivity.RecyclerAdapter();
         recView.setAdapter(adapter);
-        //adapter.addAll(getItems());
+        adapter.addAll(new ArrayList<OrderItem>());
         //new AsyncRequest().execute();
     }
 
