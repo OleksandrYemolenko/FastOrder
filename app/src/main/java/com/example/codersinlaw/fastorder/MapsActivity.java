@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -57,27 +58,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        mMap.setMyLocationEnabled(true);
-
-        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-
-            @Override
-            public boolean onMyLocationButtonClick() {
-                try {
-                    Location l = mMap.getMyLocation();
-                    System.out.println(l.getLongitude() + " " + l.getLatitude());
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-
-                return false;
-            }
-        });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override

@@ -64,6 +64,11 @@ public class MainActivity extends TabActivity {
         tabSpec.setIndicator("Заказы");
         tabSpec.setContent(new Intent(this, OrderPayActivity.class));
         tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("tag4");
+        tabSpec.setIndicator("Карта");
+        tabSpec.setContent(new Intent(this, MapsActivity.class));
+        tabHost.addTab(tabSpec);
     }
 
     class AsyncRequest extends AsyncTask<Void, Void, ArrayList<JSONObject> > {
