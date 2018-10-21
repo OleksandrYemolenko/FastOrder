@@ -25,11 +25,26 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActivityTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PassActivity"
+            android:parentActivityName=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.PASS" />
+
+                <category android:name="android.intent.category.PASS" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SMAIN" />
+
+                <category android:name="android.intent.category.MAIN" />
             </intent-filter>
         </activity>
         <activity
