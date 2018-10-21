@@ -78,9 +78,9 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabSpec);
 
         SharedPreferences sp = this.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);
-        /*/SharedPreferences.Editor editor = sp.edit();
+        SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("isLogined", false);
-        editor.commit();*/
+        editor.commit();
 
         boolean logined = sp.getBoolean("isLogined", false);
 

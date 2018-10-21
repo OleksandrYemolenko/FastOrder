@@ -14,6 +14,7 @@ import android.widget.Button;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class PassActivity extends AppCompatActivity {
     private String title;
     private Button btn;
     private Intent intent;
-    public static String phone = "+380000000000";
+    public static String phone = "+380676988515", firstname = "Oleg", secondname = "Fomenko";
 
     private Context context;
 
@@ -54,6 +55,8 @@ public class PassActivity extends AppCompatActivity {
 
                 editor.commit();
 
+                new AsyncRequest().execute();
+
                 intent = new Intent(PassActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -62,20 +65,38 @@ public class PassActivity extends AppCompatActivity {
     }
 
 
-    /*class AsyncRequest extends AsyncTask<Void, Void, ArrayList<JSONObject> > {
+    class AsyncRequest extends AsyncTask<Void, Void, JSONObject> {
 
         @Override
-        protected ArrayList<JSONObject> doInBackground(Void... voids) {
-            ArrayList<JSONObject> aj = new ArrayList<>();
-
-            String link = Handler.createLink("access.getSpots");
-            String content = Handler.sendRequest(link, "GET");
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONObject> aj) {
-
+        protected JSONObject doInBackground(Void... voids) {
+            String content = Handler.sendRequest(Handler.createLink("clients.createClient", "client_name=" + secondname + "_" + secondname, "phone=" + phone), "POST");
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(content);
+            } catch (JSONException e) {
+                System.out.println(e);
             }
+
+            return obj;
         }
-    }*/
+
+        @Override
+        protected void onPostExecute(JSONObject obj) {
+            SharedPreferences sp = context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+
+            System.out.println(obj);
+            try {
+                editor.putString("id", obj.get("response").toString());
+                System.out.println(sp.getString("id", "Errrorrrr"));
+            } catch (JSONException e) {
+                editor.putString("id", "0");
+                e.printStackTrace();
+            }
+
+
+
+            editor.commit();
+        }
+    }
 }
