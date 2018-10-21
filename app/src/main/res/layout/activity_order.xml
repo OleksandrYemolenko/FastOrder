@@ -11,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:paddingLeft="8dp"
-        android:paddingTop="16dp"
-        android:paddingRight="8dp">
+        android:padding="2dp"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/timeO"
@@ -21,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="00:00:00"
+            android:text="00:00"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="25dp"
             tools:text="Time" />
@@ -32,7 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_margin="2dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
             android:background="@drawable/buttonshape"
             android:text="set time"
             android:textColor="@color/colorPrimaryDark"
@@ -41,51 +41,55 @@
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/spinRes"
         android:background="@drawable/buttonshape"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/buttonshape"
+        android:id="@+id/spinResO"
+        android:layout_marginTop="15dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_marginTop="15dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:id="@+id/priceO"
             tools:text="Price"
             android:text="300$"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:textSize="55dp"
-            android:layout_marginTop="30dp"
+            android:textSize="70dp"
             android:textColor="@color/colorPrimaryDark"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/buttonshape"
-            android:id="@+id/spinResO"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"/>
 
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
             android:id="@+id/mapB"
             android:text="map"
             android:background="@drawable/buttonshape"
             android:layout_gravity="bottom"
             android:textSize="25dp"
             android:textColor="@color/colorPrimaryDark"/>
-    </LinearLayout>
+    </RelativeLayout>
+
     <!-- GPay -->
 
 </LinearLayout>

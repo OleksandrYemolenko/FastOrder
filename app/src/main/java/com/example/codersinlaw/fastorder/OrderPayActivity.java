@@ -3,8 +3,10 @@ package com.example.codersinlaw.fastorder;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -22,19 +24,36 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.r0adkll.slidr.Slidr;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderPayActivity extends AppCompatActivity {
 
     private TextView price, time;
-    private Spinner spinner, spinnerO;
+    public static Spinner spinner, spinnerO;
+
     private String data[] = {"Out of restaurant", "In restaurant"};
-    private static String dataO[] = {"Out of restaurant", "In restaurant"};
+    private String spots[];
+    public static int type_id = 0, spot_index = 0;
+    public static HashMap<Integer, Integer> ids = new HashMap<>();
+    public static HashMap<String, Integer> indexes = new HashMap<>();
+
+    private Context context;
+
     private Button map, timeD;
     int pri;
     private static final int Time_id = 1;
@@ -50,6 +69,19 @@ public class OrderPayActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_order);
 
+        context = this;
+        spots = new String[MainActivity.spots.size()];
+        MainActivity.spots.toArray(spots);
+        ArrayList<JSONObject> aj = MainActivity.spotsObjects;
+        for (int i = 0; i < aj.size(); ++i) {
+            try {
+                ids.put(i, Integer.parseInt(aj.get(i).get("id").toString()));
+                indexes.put(aj.get(i).get("name").toString(), i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         Slidr.attach(this);
 
         pri = getIntent().getIntExtra("price", 0);
@@ -58,7 +90,7 @@ public class OrderPayActivity extends AppCompatActivity {
     }
 
     public void bind() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner = (Spinner) findViewById(R.id.spinRes);
@@ -66,7 +98,7 @@ public class OrderPayActivity extends AppCompatActivity {
 
         spinner.setPrompt("Place");
 
-        spinner.setSelection(0);
+        spinner.setSelection(type_id);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -82,7 +114,7 @@ public class OrderPayActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> adapterO = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dataO);
+        ArrayAdapter<String> adapterO = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spots);
         adapterO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerO = (Spinner) findViewById(R.id.spinResO);
@@ -90,7 +122,7 @@ public class OrderPayActivity extends AppCompatActivity {
 
         spinnerO.setPrompt("Place");
 
-        spinnerO.setSelection(0);
+        spinnerO.setSelection(spot_index);
 
         spinnerO.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -127,7 +159,8 @@ public class OrderPayActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                //TODO map
+                Intent i = new Intent(context, MapsActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -179,4 +212,6 @@ public class OrderPayActivity extends AppCompatActivity {
             time.setText(time1);
         }
     };
+
+
 }

@@ -82,102 +82,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                System.out.println("PREESSSED = " + marker.getTitle());
+                OrderPayActivity.spot_index = OrderPayActivity.indexes.get(marker.getTitle());
+                OrderPayActivity.spinnerO.setSelection(OrderPayActivity.spot_index);
                 finish();
                 return true;
             }
         });
 
-        new AsyncRequest().execute();
-    }
-
-    class AsyncRequest extends AsyncTask<Void, Void, ArrayList<JSONObject> > {
-
-        @Override
-        protected ArrayList<JSONObject> doInBackground(Void... voids) {
-            ArrayList<JSONObject> aj = new ArrayList<>();
+        ArrayList<JSONObject> aj = MainActivity.spotsObjects;
+        for (int i = 0; i < aj.size(); ++i) {
             try {
-                String link = Handler.createLink("access.getSpots");
-                String content = Handler.sendRequest(link, "GET");
+                JSONObject obj = aj.get(i);
+                Double lat = Double.parseDouble(obj.get("lat").toString());
+                Double lng = Double.parseDouble(obj.get("lng").toString());
 
-                JSONObject obj = new JSONObject(content);
-                JSONArray arr = obj.getJSONArray("response");
-                for(int i = 0; i < arr.length(); ++i) {
-                    String id = (String)arr.getJSONObject(i).get("spot_id");
-                    String name = (String)arr.getJSONObject(i).get("spot_name");
-                    String address = (String) arr.getJSONObject(i).get("spot_adress");
+                LatLng sydney = new LatLng(lat, lng);
+                mMap.addMarker(new MarkerOptions().position(sydney).title(obj.get("name") + "").snippet(obj.get("address") + ""));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
 
-                    String helper = address.replace(" ", "+");
-                    link = "https://maps.google.com/maps/api/geocode/json?address="+helper+"&key=AIzaSyDjgfR1P5MpP8BUoFvJcrqTA_1xBJ-TVhE";
-                    JSONArray res = new JSONObject(Handler.sendRequest(link, "GET")).getJSONArray("results");
-                    JSONObject loc = res.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
-                    String lng = loc.getString("lng");
-                    String lat = loc.getString("lat");
-
-                    JSONObject o = new JSONObject();
-                    o.put("id", id);
-                    o.put("name", name);
-                    o.put("address", address);
-                    o.put("lng", lng);
-                    o.put("lat", lat);
-                    aj.add(o);
-                }
+                System.out.println(obj);
             } catch (JSONException e) {
-                System.out.println(e);
-            }
-
-            return aj;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONObject> aj) {
-            for (int i = 0; i < aj.size(); ++i) {
-                ArrayList<MarkerOptions> markers = new ArrayList<>();
-                try {
-                    JSONObject obj = aj.get(i);
-                    Double lat = Double.parseDouble(obj.get("lat").toString());
-                    Double lng = Double.parseDouble(obj.get("lng").toString());
-
-                    LatLng sydney = new LatLng(lat, lng);
-                    markers.add(new MarkerOptions().position(sydney).title(obj.get("name") + "").snippet(obj.get("address") + ""));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-
-                    System.out.println(obj);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                addMarkers(markers);
-            }
-        }
-
-        private void addMarkers(ArrayList<MarkerOptions> markers) {
-            int minDist = 1000000000;
-            int index = -1;
-
-            /*for(int i = 0; i < markers.size(); ++i) {
-                try {
-                    Location l = mMap.getMyLocation();
-                    System.out.println("LOCATION " + l);
-                    String link = "https://maps.google.com/maps/api/distancematrix/json?units=metric&origins="
-                            + l.getLatitude() + "," + l.getLongitude()
-                            + "&destinations=" + markers.get(i).getPosition().latitude + "," + markers.get(i).getPosition().longitude
-                            + "&key=AIzaSyDjgfR1P5MpP8BUoFvJcrqTA_1xBJ-TVhE";
-
-                    JSONObject res = new JSONObject(Handler.sendRequest(link, "GET"));
-                    int len = Integer.parseInt(res.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("distance").get("value").toString());
-                    System.out.println("I = " + i + " len = " + len);
-                    if(len < minDist) {
-                        index = i;
-                        minDist = len;
-                    }
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-            }*/
-
-            for(int i = 0; i < markers.size(); ++i) {
-                if(index == i) markers.get(i).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                mMap.addMarker(markers.get(i));
+                e.printStackTrace();
             }
         }
     }
