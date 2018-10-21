@@ -75,6 +75,7 @@ public class OrderPayActivity extends AppCompatActivity {
         ArrayList<JSONObject> aj = MainActivity.spotsObjects;
         for (int i = 0; i < aj.size(); ++i) {
             try {
+
                 ids.put(i, Integer.parseInt(aj.get(i).get("id").toString()));
                 indexes.put(aj.get(i).get("name").toString(), i);
             } catch (JSONException e) {
