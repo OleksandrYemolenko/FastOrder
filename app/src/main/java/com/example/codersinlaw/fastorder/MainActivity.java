@@ -29,8 +29,8 @@ public class MainActivity extends TabActivity {
     private BottomNavigationView bottomNavigationView;
     public static ArrayList<CartItem> cartItems = new ArrayList<>();
     public static ArrayList<CartItem> placeList = new ArrayList<>();
-    public static ArrayList<String> spots = new ArrayList<>();
-    public static ArrayList<JSONObject> spotsObjects = new ArrayList<>();
+    public static ArrayList<String> spots;
+    public static ArrayList<JSONObject> spotsObjects;
 
     public static final String STORAGE_NAME = "STORAGE";
 
@@ -44,6 +44,9 @@ public class MainActivity extends TabActivity {
 
         setContentView(R.layout.activity_main);
         new AsyncRequest().execute();
+
+        spots = new ArrayList<>();
+        spotsObjects = new ArrayList<>();
 
         title = "Dishes";
         setTitle(title);
