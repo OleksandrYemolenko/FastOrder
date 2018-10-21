@@ -1,7 +1,9 @@
 package com.example.codersinlaw.fastorder;
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -29,6 +31,8 @@ public class MainActivity extends TabActivity {
     public static ArrayList<CartItem> placeList = new ArrayList<>();
     public static ArrayList<String> spots = new ArrayList<>();
     public static ArrayList<JSONObject> spotsObjects = new ArrayList<>();
+
+    public static final String STORAGE_NAME = "STORAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,19 @@ public class MainActivity extends TabActivity {
         tabSpec.setIndicator("Карта");
         tabSpec.setContent(new Intent(this, MapsActivity.class));
         tabHost.addTab(tabSpec);
+
+        SharedPreferences sp = this.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);
+        /*SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("isLogined", false);
+        editor.commit();*/
+
+        boolean logined = sp.getBoolean("isLogined", false);
+
+        if(!logined) {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 
     class AsyncRequest extends AsyncTask<Void, Void, ArrayList<JSONObject> > {
