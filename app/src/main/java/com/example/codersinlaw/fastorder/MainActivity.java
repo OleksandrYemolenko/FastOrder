@@ -2,6 +2,7 @@ package com.example.codersinlaw.fastorder;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,10 @@ import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +27,8 @@ public class MainActivity extends TabActivity {
     private BottomNavigationView bottomNavigationView;
     public static ArrayList<CartItem> cartItems = new ArrayList<>();
     public static ArrayList<CartItem> placeList = new ArrayList<>();
+    public static ArrayList<String> spots = new ArrayList<>();
+    public static ArrayList<JSONObject> spotsObjects = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,8 @@ public class MainActivity extends TabActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+        new AsyncRequest().execute();
+
         title = "Dishes";
         setTitle(title);
 
@@ -62,5 +71,55 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabSpec);
     }
 
+    class AsyncRequest extends AsyncTask<Void, Void, ArrayList<JSONObject> > {
+
+        @Override
+        protected ArrayList<JSONObject> doInBackground(Void... voids) {
+            ArrayList<JSONObject> aj = new ArrayList<>();
+            try {
+                String link = Handler.createLink("access.getSpots");
+                String content = Handler.sendRequest(link, "GET");
+
+                JSONObject obj = new JSONObject(content);
+                JSONArray arr = obj.getJSONArray("response");
+                for(int i = 0; i < arr.length(); ++i) {
+                    String id = (String)arr.getJSONObject(i).get("spot_id");
+                    String name = (String)arr.getJSONObject(i).get("spot_name");
+                    String address = (String) arr.getJSONObject(i).get("spot_adress");
+
+                    String helper = address.replace(" ", "+");
+                    link = "https://maps.google.com/maps/api/geocode/json?address="+helper+"&key=AIzaSyDjgfR1P5MpP8BUoFvJcrqTA_1xBJ-TVhE";
+                    JSONArray res = new JSONObject(Handler.sendRequest(link, "GET")).getJSONArray("results");
+                    JSONObject loc = res.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+                    String lng = loc.getString("lng");
+                    String lat = loc.getString("lat");
+
+                    JSONObject o = new JSONObject();
+                    o.put("id", id);
+                    o.put("name", name);
+                    o.put("address", address);
+                    o.put("lng", lng);
+                    o.put("lat", lat);
+                    aj.add(o);
+                }
+            } catch (JSONException e) {
+                System.out.println(e);
+            }
+
+            return aj;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<JSONObject> aj) {
+            spotsObjects = aj;
+            for (int i = 0; i < aj.size(); ++i) {
+                try {
+                    spots.add(aj.get(i).get("name") + " " + aj.get(i).get("address"));
+                } catch (JSONException e) {
+                    System.out.println(e);
+                }
+            }
+        }
+    }
 
 }
