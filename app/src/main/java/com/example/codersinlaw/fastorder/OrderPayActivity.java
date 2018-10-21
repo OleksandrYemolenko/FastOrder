@@ -31,7 +31,7 @@ import java.util.GregorianCalendar;
 
 public class OrderPayActivity extends AppCompatActivity {
 
-    private TextView price, time, address;
+    private TextView price, time;
     private Spinner spinner, spinnerO;
     private String data[] = {"Out of restaurant", "In restaurant"};
     private static String dataO[] = {"Out of restaurant", "In restaurant"};
@@ -108,12 +108,10 @@ public class OrderPayActivity extends AppCompatActivity {
 
         price = (TextView) findViewById(R.id.priceO);
         time = (TextView) findViewById(R.id.timeO);
-        address = (TextView) findViewById(R.id.addressO);
         map = (Button) findViewById(R.id.mapB);
         timeD = (Button) findViewById(R.id.timeD);
         price.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
         time.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
-        address.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
         map.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
         timeD.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
         timeD.setOnClickListener(new View.OnClickListener() {

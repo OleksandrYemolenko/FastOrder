@@ -3,87 +3,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:paddingLeft="8dp"
+        android:paddingTop="16dp"
         android:paddingRight="8dp">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/timeO"
-            tools:text="Time"
-            android:text="00:00:00"
-            android:layout_alignParentLeft="true"
-            android:textSize="25dp"
-            android:textColor="@color/colorPrimaryDark"/>
-        <Button
-            android:layout_margin="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="set time"
-            android:background="@drawable/buttonshape"
-            android:id="@+id/timeD"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="00:00:00"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="25dp"
-            android:textColor="@color/colorPrimaryDark"/>
+            tools:text="Time" />
+
+        <Button
+            android:id="@+id/timeD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="2dp"
+            android:background="@drawable/buttonshape"
+            android:text="set time"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="25dp" />
     </RelativeLayout>
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinRes"/>
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/spinRes"
+        android:background="@drawable/buttonshape"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:id="@+id/mapB"
-                android:text="map"
-                android:background="@drawable/buttonshape"
-                android:layout_gravity="top"
-                android:textSize="25dp"
-                android:textColor="@color/colorPrimaryDark"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/addressO"
-                tools:text="Address"
-                android:text="Address"
-                android:layout_gravity="bottom"
-                android:textSize="25dp"
-                android:textColor="@color/colorPrimaryDark"/>
-        </LinearLayout>
+        android:layout_gravity="bottom">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/priceO"
             tools:text="Price"
             android:text="300$"
-            android:layout_alignParentEnd="true"
-            android:textSize="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:textSize="55dp"
+            android:layout_marginTop="30dp"
             android:textColor="@color/colorPrimaryDark"/>
         <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/buttonshape"
             android:id="@+id/spinResO"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="25dp"/>
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"/>
 
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:id="@+id/mapB"
+            android:text="map"
+            android:background="@drawable/buttonshape"
+            android:layout_gravity="bottom"
+            android:textSize="25dp"
+            android:textColor="@color/colorPrimaryDark"/>
+    </LinearLayout>
     <!-- GPay -->
 
 </LinearLayout>
