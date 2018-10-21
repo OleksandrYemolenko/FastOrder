@@ -153,7 +153,7 @@ public class OrderPayActivity extends AppCompatActivity {
                                             @Override
                                             public void onClick(View view) {
                                                 requestPayment(view);
-
+                                                //TODO send request
                                             }
                                         });
                                 mGooglePayButton.setVisibility(View.VISIBLE);

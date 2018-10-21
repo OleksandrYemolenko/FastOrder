@@ -253,7 +253,7 @@ public class DishListActivity extends AppCompatActivity {
                     //System.out.println(price);
                     int id = Integer.parseInt((String)arr.getJSONObject(i).get("product_id"));
 
-                    items.add(new DishItem(name, Handler.link + photo, id, priceStr, "Описание товара из чего состоит хз будет ли в релизе лалалала саша пидор"));
+                    items.add(new DishItem(name, Handler.link + photo, id, priceStr, "Описание товара из чего состоит и тд. \nПункт 1\nПункт 2\nЭто должно быть но мы не успели"));
                 }
             } catch (JSONException e) {
                 System.out.println(e);
