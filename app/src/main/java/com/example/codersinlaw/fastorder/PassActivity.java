@@ -3,12 +3,19 @@ package com.example.codersinlaw.fastorder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import static com.example.codersinlaw.fastorder.MainActivity.STORAGE_NAME;
 
@@ -53,4 +60,22 @@ public class PassActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /*class AsyncRequest extends AsyncTask<Void, Void, ArrayList<JSONObject> > {
+
+        @Override
+        protected ArrayList<JSONObject> doInBackground(Void... voids) {
+            ArrayList<JSONObject> aj = new ArrayList<>();
+
+            String link = Handler.createLink("access.getSpots");
+            String content = Handler.sendRequest(link, "GET");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<JSONObject> aj) {
+
+            }
+        }
+    }*/
 }
