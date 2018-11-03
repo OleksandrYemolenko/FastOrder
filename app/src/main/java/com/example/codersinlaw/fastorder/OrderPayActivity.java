@@ -209,6 +209,7 @@ public class OrderPayActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner = (Spinner) findViewById(R.id.spinRes);
+
         spinner.setAdapter(adapter);
 
         spinner.setPrompt("Place");

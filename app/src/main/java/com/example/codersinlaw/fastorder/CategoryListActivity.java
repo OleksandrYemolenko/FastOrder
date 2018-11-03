@@ -167,7 +167,7 @@ public class CategoryListActivity extends AppCompatActivity {
             price.setText("");;
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
-            subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
+            subItem.setVisibility(View.GONE);
         }
     }
 

@@ -105,7 +105,7 @@
         <activity
             android:name=".OrderPayActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.Design.NoActionBar">
+            android:theme="@style/CustomActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.ORDERPAY" />
 
@@ -113,7 +113,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".OrderListActivity">
+        <activity android:name=".OrderListActivity"
+            android:theme="@style/CustomActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.ORDERLIST" />
 

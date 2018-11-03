@@ -201,12 +201,13 @@ public class DishListActivity extends AppCompatActivity {
             boolean expanded = recyclerItem.isExpanded();
 
             title.setText(recyclerItem.getName());
-            price.setVisibility(View.VISIBLE);
+            price.setText(recyclerItem.getPrice());
             description.setText(recyclerItem.getDescription());
             // TODO добавить текст button.setText();
             Picasso.with(context).load(recyclerItem.getURL()).into(image);
 
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
+            price.setVisibility(expanded ? View.INVISIBLE : View.VISIBLE);
         }
     }
 
